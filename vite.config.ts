@@ -24,9 +24,9 @@ export default defineConfig({
             presets: [reactCompilerPreset()],
         }),
         tailwindcss(),
-        wayfinder({
-            formVariants: true,
-        }),
+        //wayfinder({
+         //   formVariants: true,
+        //}),
     ]),
     server: {
         watch: {
