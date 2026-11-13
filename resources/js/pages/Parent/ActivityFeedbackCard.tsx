@@ -39,7 +39,7 @@ export default function ActivityFeedbackCard({
 
             {submitted ? (
                 <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold rounded-xl flex items-center gap-2">
-                    <span>✓</span> Thank you! Your feedback has been shared with Teacher Maria for progress tracking.
+                    <span>✓</span> Thank you! Your feedback has been shared with Teacher Mara or progress tracking.
                 </div>
             ) : (
                 <form onSubmit={handleSubmit} className="space-y-4 text-xs">

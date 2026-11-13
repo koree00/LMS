@@ -63,14 +63,14 @@ export default function SnedOverview({ notifications = [], students = [], pendin
     const [milestoneViewMode, setMilestoneViewMode] = useState<'General' | 'Proficiency'>('General');
 
     const inclusionRecords: StudentInclusionRecord[] = students.length > 0 ? students : [
-        { id: 1, name: 'Leonardo R. Cruz', section: 'Grade 1 — Section 1', condition: 'Mild ASD', iepStatus: 'Compliant', sensoryPausesToday: 3, readingPace: '1.2x (Assisted)', audioEngagement: '85%' },
+        { id: 1, name: 'Ronardo R. Cra',section: 'Grade 1 — Section 1', condition: 'Mild ASD', iepStatus: 'Compliant', sensoryPausesToday: 3, readingPace: '1.2x (Assisted)', audioEngagement: '85%' },
         { id: 2, name: 'Chloe Samantha Tan', section: 'Grade 1 — Section 2', condition: 'ADHD', iepStatus: 'Review Needed', sensoryPausesToday: 6, readingPace: '1.0x (Standard)', audioEngagement: '92%' },
         { id: 3, name: 'Marcus Aurelius Lim', section: 'Grade 1 — Section 1', condition: 'Mild ASD', iepStatus: 'Compliant', sensoryPausesToday: 1, readingPace: '1.5x (Bionic)', audioEngagement: '78%' },
     ];
 
     const queueItems: ValidationQueueItem[] = pendingValidation.length > 0 ? pendingValidation : [
         { id: 1, lesson: 'Counting to 5', teacher: 'Teacher Ana', status: 'Needs review' },
-        { id: 2, lesson: 'Letter sounds', teacher: 'Teacher Ben', status: 'Needs review' },
+        { id: 2, lesson: 'Letter sounds', teacher: 'Teacher Bea', status: 'Needs review' },
         { id: 3, lesson: 'Plant parts', teacher: 'Teacher Ana', status: 'Updated' },
     ];
 
@@ -141,6 +141,10 @@ export default function SnedOverview({ notifications = [], students = [], pendin
                                     <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                                     {sidebarOpen && <span>Overview</span>}
                                 </Link>
+                                <Link href="/sned-coordinator/messages" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`} title="Messages">
+                                    <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                                    {sidebarOpen && <span>Messages</span>}
+                                </Link>
                                  <Link href="/sned-coordinator/learners" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`} title="Learners Profile">
                                                                     <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                                                                                                     {sidebarOpen && <span>Learners Profile</span>}
@@ -153,10 +157,7 @@ export default function SnedOverview({ notifications = [], students = [], pendin
                                     <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                                     {sidebarOpen && <span>Intervention & Flags</span>}
                                 </Link>
-                                <Link href="/sned-coordinator/messages" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`} title="Messages">
-                                    <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-                                    {sidebarOpen && <span>Messages</span>}
-                                </Link>
+                                
                                 <Link href="/sned-coordinator/settings" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`} title="User Settings">
                                     <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                                     {sidebarOpen && <span>My Settings</span>}
@@ -259,15 +260,15 @@ export default function SnedOverview({ notifications = [], students = [], pendin
                                 <div className="text-lg font-extrabold text-slate-900">82%</div>
                                 <span className="text-[10px] text-slate-400 font-medium block">Across active learning plans</span>
                             </div>
-                            <div className="bg-[#EBF5EE] p-4 rounded-xl border border-emerald-200/60 shadow-2xs space-y-1">
-                                <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider block">ILP progress</span>
-                                <div className="text-lg font-extrabold text-emerald-950">74%</div>
-                                <span className="text-[10px] text-emerald-800 font-medium block">Updated this term</span>
+                            <div className="bg-[#EBF5EE] p-4 rounded-xl border border-slate-200/60 shadow-2xs space-y-1">
+                                <span className="text-[10px] font-bold text-slate-800 uppercase tracking-wider block">ILP progress</span>
+                                <div className="text-lg font-extrabold text-slate-950">74%</div>
+                                <span className="text-[10px] text-slate-800 font-medium block">Updated this term</span>
                             </div>
-                            <div className="bg-[#F3F0F8] p-4 rounded-xl border border-purple-200/60 shadow-2xs space-y-1">
-                                <span className="text-[10px] font-bold text-purple-900 uppercase tracking-wider block">Needs follow-up</span>
-                                <div className="text-lg font-extrabold text-purple-950">3</div>
-                                <span className="text-[10px] text-purple-800 font-medium block">Learners flagged</span>
+                            <div className="bg-[#F3F0F8] p-4 rounded-xl border border-slate-200/60 shadow-2xs space-y-1">
+                                <span className="text-[10px] font-bold text-slate-900 uppercase tracking-wider block">Needs follow-up</span>
+                                <div className="text-lg font-extrabold text-slate-950">3</div>
+                                <span className="text-[10px] text-slate-800 font-medium block">Learners flagged</span>
                             </div>
                         </div>
                     </div>
@@ -305,7 +306,7 @@ export default function SnedOverview({ notifications = [], students = [], pendin
                                                     <td className="py-3.5 text-slate-600 font-medium">{item.teacher}</td>
                                                     <td className="py-3.5">
                                                         <span className={`text-[11px] font-semibold ${
-                                                            item.status === 'Needs review' ? 'text-amber-500' : 'text-emerald-700'
+                                                            item.status === 'Needs review' ? 'text-slate-500' : 'text-slate-700'
                                                         }`}>
                                                             {item.status}
                                                         </span>
@@ -394,13 +395,13 @@ export default function SnedOverview({ notifications = [], students = [], pendin
                                             <td className="p-3.5 pl-5 font-bold text-slate-900">{student.name}</td>
                                             <td className="p-3.5 text-slate-600">{student.section}</td>
                                             <td className="p-3.5">
-                                                <span className="px-2 py-0.5 bg-emerald-50 text-emerald-800 font-semibold text-[10px] rounded-full border border-emerald-200/50">
+                                                <span className="px-2 py-0.5 bg-emerald-50 text-emerald-800 font-semibold text-[10px] rounded-full border border-slate-200/50">
                                                     {student.condition}
                                                 </span>
                                             </td>
                                             <td className="p-3.5">
                                                 <span className={`px-2 py-0.5 font-semibold text-[10px] rounded-full ${
-                                                    student.iepStatus === 'Compliant' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                                                    student.iepStatus === 'Compliant' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-slate-800'
                                                 }`}>
                                                     {student.iepStatus}
                                                 </span>

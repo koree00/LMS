@@ -227,6 +227,8 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
     Route::get('/observations', fn () => Inertia::render('Teacher/Observations'))->name('observations');
     Route::get('/schedule', fn () => Inertia::render('Teacher/Schedule'))->name('schedule');
     Route::get('/reports', fn () => Inertia::render('Teacher/Reports'))->name('reports');
+        Route::get('/messages', fn () => Inertia::render('Teacher/Messages'))->name('messages');
+
 });
 
 
@@ -272,11 +274,31 @@ Route::prefix('parent')->name('parent.')->group(function () {
 | Student Portal Routes (Gamified Learning for SNED Learners)
 |--------------------------------------------------------------------------
 */
+
+
 Route::prefix('student')->name('student.')->group(function () {
-    Route::get('/dashboard', fn () => Inertia::render('Student/StudentDashboard'))->name('dashboard');
-    Route::get('/subjects', fn () => Inertia::render('Student/SubjectsIndex'))->name('subjects');
-    Route::get('/activity', fn () => Inertia::render('Student/StudentActivity'))->name('activity');
+    // Main Student Overview / Dashboard
+    Route::get('/overview', fn () => Inertia::render('Student/StudentOverview'))->name('overview');
+    
+    // Gamified Activities & Level Map
+    Route::get('/activities', fn () => Inertia::render('Student/StudentActivities'))->name('activities');
+    
+    // Daily Mini-Games Hub
+    Route::get('/daily-games', fn () => Inertia::render('Student/StudentDailyGames'))->name('daily-games');
+    
+       Route::get('/grades', fn () => Inertia::render('Student/StudentGrades'))->name('grades');
+
+    // Avatar & Coin Shop
+    Route::get('/avatar', fn () => Inertia::render('Student/StudentAvatar'))->name('avatar');
+    
+    // Rewards & Badges Collection
     Route::get('/rewards', fn () => Inertia::render('Student/StudentRewards'))->name('rewards');
+    
+    // Teacher Feedback per Subject & Topic
+    Route::get('/feedback', fn () => Inertia::render('Student/StudentFeedback'))->name('feedback');
+    
+    // Student Settings & Accessibility Preferences
+    Route::get('/settings', fn () => Inertia::render('Student/StudentSettings'))->name('settings');
 });
 
 // Individual Subject Levels Dynamic Route

@@ -29,7 +29,7 @@ export default function ResetPassword({ token, email }: { token: string; email: 
                     {/* Institutional Header */}
                     <div className="flex items-center gap-3.5 mb-6">
                         <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-800 font-bold text-sm shrink-0">
-                            SM
+                            EQ
                         </div>
                         <div>
                             <span className="font-bold text-slate-900 block text-lg leading-tight">San Mateo Elementary School</span>

@@ -50,42 +50,42 @@ export default function ICTMessages({ notifications = [], threads = [] }: ICTMes
     const [conversationList, setConversationList] = useState<MessageThread[]>(threads.length > 0 ? threads : [
         {
             id: 1,
-            senderName: 'Cynthia S. Tompong',
+            senderName: 'Cherry Tiong',
             role: 'Principal · San Mateo Elementary School',
             avatar: 'CT',
             lastMessage: 'Please check the daily activity reports before Monday.',
             time: '10:15 AM',
             unread: true,
             messages: [
-                { id: 1, sender: 'Cynthia S. Tompong', text: 'Good morning! Are all the student records updated for the new week?', time: '9:30 AM', isMe: false },
-                { id: 2, sender: 'ICT Admin', text: 'Good morning Principal Tompong! Yes, everything is updated and checked.', time: '9:45 AM', isMe: true },
-                { id: 3, sender: 'Cynthia S. Tompong', text: 'Please check the daily activity reports before Monday.', time: '10:15 AM', isMe: false }
+                { id: 1, sender: 'Cherry Tiong', text: 'Good morning! Are all the student records updated for the new week?', time: '9:30 AM', isMe: false },
+                { id: 2, sender: 'ICT Admin', text: 'Good morning Principal Tiong! Yes, everything is updated and checked.', time: '9:45 AM', isMe: true },
+                { id: 3, sender: 'Cherry Tiong', text: 'Please check the daily activity reports before Monday.', time: '10:15 AM', isMe: false }
             ]
         },
         {
             id: 2,
-            senderName: 'Elena Robles',
+            senderName: 'Ena Res',
             role: 'SNED Coordinator',
             avatar: 'ER',
             lastMessage: 'Thank you for updating the account access for the new teachers.',
             time: 'Yesterday',
             unread: false,
             messages: [
-                { id: 1, sender: 'Elena Robles', text: 'Hi! Can we reset the password for teacher Maria Santos?', time: 'Yesterday', isMe: false },
+                { id: 1, sender: 'Ena Res', text: 'Hi! Can we reset the password for teacher Mara Sas?', time: 'Yesterday', isMe: false },
                 { id: 2, sender: 'ICT Admin', text: 'Done! Her temporary login details have been sent to her email.', time: 'Yesterday', isMe: true },
-                { id: 3, sender: 'Elena Robles', text: 'Thank you for updating the account access for the new teachers.', time: 'Yesterday', isMe: false }
-            ]
+                { id: 3, sender: 'Ena Res', text: 'Thank you for updating the account access for the new teachers.', time: 'Yesterday', isMe: false }
+            ] 
         },
         {
             id: 3,
-            senderName: 'Teacher Maria Santos',
+            senderName: 'Teacher Mara Sas',
             role: 'Inclusive Teacher · Section 1',
             avatar: 'MS',
             lastMessage: 'The audio support and reading tools are working great on the tablets.',
             time: 'Nov 10',
             unread: false,
             messages: [
-                { id: 1, sender: 'Teacher Maria Santos', text: 'The audio support and reading tools are working great on the tablets.', time: 'Nov 10', isMe: false }
+                { id: 1, sender: 'Teacher Mara Sas', text: 'The audio support and reading tools are working great on the tablets.', time: 'Nov 10', isMe: false }
             ]
         }
     ]);

@@ -49,7 +49,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
                                 value={data.email}
                                 onChange={e => setData('email', e.target.value)}
                                 className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-emerald-400 focus:border-emerald-500 focus:outline-none text-sm bg-white transition-all" 
-                                placeholder="name@school.edu.ph" 
+                                placeholder="name@school.gmail.com" 
                                 aria-label="School email address"
                                 required
                             />

@@ -71,8 +71,8 @@ export default function ICTActivityLog({ notifications = [], auditEvents }: ICTA
         { id: 2, time: 'Today · 10:18', actor: 'Parent account', roleGroup: 'Parents', action: 'Viewed progress', category: 'Read-only access' },
         { id: 3, time: 'Today · 09:54', actor: 'ICT coordinator', roleGroup: 'Security', action: 'Updated role access', category: 'Security setting' },
         { id: 4, time: 'Yesterday · 15:22', actor: 'SNED coordinator', roleGroup: 'Coordinators', action: 'Validated lesson', category: 'Lesson workflow' },
-        { id: 5, time: 'Yesterday · 14:05', actor: 'Teacher Ben', roleGroup: 'Teachers', action: 'Added observation', category: 'Student record' },
-        { id: 6, time: 'Yesterday · 11:30', actor: 'Principal Ramos', roleGroup: 'Coordinators', action: 'Downloaded school report', category: 'Administrative Oversight' },
+        { id: 5, time: 'Yesterday · 14:05', actor: 'Teacher Bea', roleGroup: 'Teachers', action: 'Added observation', category: 'Student record' },
+        { id: 6, time: 'Yesterday · 11:30', actor: 'Principal Raos', roleGroup: 'Coordinators', action: 'Downloaded school report', category: 'Administrative Oversight' },
     ];
 
     const filteredEvents = eventsList.filter(ev => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Head, Link } from '@inertiajs/react';
 
-interface Notification {
+interface NotificationItem {
     id: number;
     text: string;
     time: string;
@@ -33,7 +33,7 @@ export default function TeacherReports() {
         };
     }, [notifOpen]);
 
-    const [notifications, setNotifications] = useState<Notification[]>([
+    const [notifications, setNotifications] = useState<NotificationItem[]>([
         { id: 1, text: 'New classroom observation note logged for Mia S.', time: '10m ago', unread: true },
         { id: 2, text: 'SNED validation review completed for Grade 1 math', time: '1h ago', unread: true },
     ]);
@@ -47,7 +47,7 @@ export default function TeacherReports() {
     return (
         <>
             <Head title="Class progress reports — Teacher Portal · San Mateo Elementary School" />
-            <div className="min-h-screen bg-slate-50/50 flex text-slate-700 overflow-x-hidden relative font-sans">
+            <div className="min-h-screen bg-white flex text-slate-700 w-full overflow-x-hidden relative font-sans box-border">
                 
                 {sidebarOpen && (
                     <div 
@@ -58,10 +58,10 @@ export default function TeacherReports() {
 
                 {/* Sidebar Navigation */}
                 <aside className={`
-                    fixed md:sticky top-0 h-screen z-50 bg-white border-r border-slate-200/70 p-4 md:p-5 flex flex-col justify-between transition-all duration-200 shrink-0 overflow-y-auto
-                    ${sidebarOpen ? 'translate-x-0 w-64 shadow-sm md:shadow-none' : '-translate-x-full md:w-20 md:-translate-x-0'}
+                    fixed inset-y-0 left-0 z-50 bg-white border-r border-slate-200/70 p-4 md:p-5 flex flex-col justify-between transition-all duration-200 shrink-0
+                    ${sidebarOpen ? 'w-64 shadow-sm md:shadow-none translate-x-0' : '-translate-x-full md:translate-x-0 md:w-20'}
                 `}>
-                    <div className="space-y-6">
+                    <div className="space-y-6 overflow-y-auto overflow-x-hidden flex-1 pr-1">
                         <div className={`flex items-center pb-4 border-b border-slate-100 ${sidebarOpen ? 'justify-between' : 'flex-col gap-3'}`}>
                             <div className="flex items-center gap-3 overflow-hidden">
                                 <div className="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-800 border border-slate-200/70 flex items-center justify-center font-bold text-xs shrink-0 shadow-2xs">
@@ -86,16 +86,6 @@ export default function TeacherReports() {
                             </button>
                         </div>
 
-                        {sidebarOpen && (
-                            <div className="relative">
-                                <input 
-                                    type="text" 
-                                    placeholder="Search..." 
-                                    className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-600 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-500 transition-all"
-                                />
-                            </div>
-                        )}
-
                         <div>
                             {sidebarOpen && (
                                 <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2 px-1">
@@ -104,27 +94,31 @@ export default function TeacherReports() {
                             )}
 
                             <nav className="space-y-1">
-                                <Link href="/teacher/overview" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen && 'md:justify-center px-0'}`}>
+                                <Link href="/teacher/overview" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
                                     <svg className="w-4 h-4 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                                     {sidebarOpen && <span>Overview</span>}
                                 </Link>
-                                <Link href="/teacher/learners" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen && 'md:justify-center px-0'}`}>
+                                <Link href="/teacher/learners" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
                                     <svg className="w-4 h-4 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                                     {sidebarOpen && <span>Learners</span>}
                                 </Link>
-                                <Link href="/teacher/lessons" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen && 'md:justify-center px-0'}`}>
+                                <Link href="/teacher/lessons" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
                                     <svg className="w-4 h-4 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                                     {sidebarOpen && <span>Lessons</span>}
                                 </Link>
-                                <Link href="/teacher/observations" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen && 'md:justify-center px-0'}`}>
+                                <Link href="/teacher/observations" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
                                     <svg className="w-4 h-4 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
                                     {sidebarOpen && <span>Observations</span>}
                                 </Link>
-                                <Link href="/teacher/reports" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg bg-emerald-50 text-emerald-900 font-medium text-xs border border-emerald-100 transition-all ${!sidebarOpen && 'md:justify-center px-0'}`}>
-                                    <svg className="w-4 h-4 shrink-0 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                                <Link href="/teacher/reports" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg bg-slate-100 text-slate-900 font-medium text-xs border border-slate-200 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
+                                    <svg className="w-4 h-4 shrink-0 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
                                     {sidebarOpen && <span>Reports</span>}
                                 </Link>
-                                <Link href="/teacher/schedule" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen && 'md:justify-center px-0'}`}>
+                                <Link href="/teacher/messages" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-500 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`} title="Messages">
+                                    <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                                    {sidebarOpen && <span>Messages</span>}
+                                </Link>
+                                <Link href="/teacher/schedule" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
                                     <svg className="w-4 h-4 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                     {sidebarOpen && <span>Schedule</span>}
                                 </Link>
@@ -132,8 +126,8 @@ export default function TeacherReports() {
                         </div>
                     </div>
 
-                    <div className="space-y-2.5 pt-4 border-t border-slate-100">
-                        <Link href="/login" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-rose-50/50 text-rose-600 font-medium text-xs border border-transparent hover:border-rose-100 transition-all ${!sidebarOpen && 'md:justify-center px-0'}`}>
+                    <div className="space-y-2.5 pt-4 border-t border-slate-100 shrink-0 bg-white">
+                        <Link href="/login" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-rose-50/50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-100 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
                             <svg className="w-4 h-4 shrink-0 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                             {sidebarOpen && <span>Sign out</span>}
                         </Link>
@@ -141,124 +135,152 @@ export default function TeacherReports() {
                 </aside>
 
                 {/* Main Content Area */}
-                <main className="flex-1 py-6 px-4 sm:px-8 lg:px-10 max-w-7xl mx-auto space-y-6">
+                <main className={`flex-1 w-full min-w-0 py-5 px-4 sm:px-8 lg:px-10 space-y-6 transition-all duration-200 ${sidebarOpen ? 'md:ml-64' : 'md:ml-20'}`}>
                     
                     {/* Top Bar Header */}
-                    <div className="flex items-center justify-between bg-white p-3.5 sm:px-6 rounded-xl border border-slate-200/70 shadow-sm w-full">
-                        <div className="flex items-center gap-3">
-                            <button onClick={() => setSidebarOpen(true)} className="md:hidden p-1.5 rounded-lg text-slate-600 hover:bg-slate-50 border border-slate-200">
+                    <div className="flex items-center justify-between bg-white p-3.5 sm:px-6 rounded-xl border border-slate-200/70 shadow-sm w-full box-border">
+                        <div className="flex items-center gap-3 min-w-0">
+                            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg text-slate-600 hover:bg-slate-50 border border-slate-200 cursor-pointer shrink-0">
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M4 6h16M4 12h16M4 18h16"/></svg>
                             </button>
-                            <span className="text-xs font-semibold text-slate-500">Reports / Teacher</span>
+                            <span className="text-xs font-semibold text-slate-500 truncate">Reports / Teacher</span>
                         </div>
 
-                        <div className="flex items-center gap-3">
-                            <div className="relative hidden sm:block">
-                                <input type="text" placeholder="Search..." className="w-56 bg-slate-50/50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-400" />
-                            </div>
-                            
+                        <div className="flex items-center gap-3 shrink-0">
+                            {/* Notification Dropdown */}
                             <div className="relative" ref={notifRef}>
-                                <button onClick={() => setNotifOpen(!notifOpen)} className="w-8 h-8 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 text-xs font-bold cursor-pointer">
-                                    {unreadCount}
+                                <button 
+                                    onClick={() => setNotifOpen(!notifOpen)}
+                                    className="relative p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all border border-slate-200 cursor-pointer"
+                                    title="Notifications"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                                    {unreadCount > 0 && (
+                                        <span className="absolute -top-1 -right-1 bg-rose-500 text-white font-bold text-[9px] w-4 h-4 rounded-full flex items-center justify-center shadow-2xs">
+                                            {unreadCount}
+                                        </span>
+                                    )}
                                 </button>
                                 {notifOpen && (
-                                    <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-slate-200/70 p-3 z-50">
-                                        <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 mb-2">
-                                            <span className="text-xs font-semibold text-slate-800">Notifications ({unreadCount})</span>
-                                            <button onClick={markAllAsRead} className="text-[11px] text-[#4B8B6B] hover:underline font-medium cursor-pointer">Mark all read</button>
+                                    <div className="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden text-xs">
+                                        <div className="flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-100 font-bold text-slate-800">
+                                            <span>Notifications</span>
+                                            {unreadCount > 0 && (
+                                                <button onClick={markAllAsRead} className="text-[11px] text-slate-700 hover:underline font-medium cursor-pointer">Mark all read</button>
+                                            )}
                                         </div>
-                                        <div className="space-y-2 max-h-56 overflow-y-auto">
-                                            {notifications.map(n => (
-                                                <div key={n.id} className={`p-2 rounded-lg text-xs border ${n.unread ? 'bg-emerald-50/50 border-emerald-100 font-medium' : 'bg-white border-slate-100 text-slate-500'}`}>
-                                                    <p className="leading-snug">{n.text}</p>
-                                                    <span className="text-[10px] text-slate-400 mt-0.5 block">{n.time}</span>
-                                                </div>
-                                            ))}
+                                        <div className="max-h-64 overflow-y-auto divide-y divide-slate-100">
+                                            {notifications.length > 0 ? (
+                                                notifications.map(n => (
+                                                    <div key={n.id} className={`p-3 hover:bg-slate-50 cursor-pointer transition-all flex items-start gap-2.5 ${n.unread ? 'bg-slate-50' : ''}`}>
+                                                        <span className={`w-2 h-2 rounded-full mt-1 shrink-0 ${n.unread ? 'bg-slate-500' : 'bg-slate-300'}`}></span>
+                                                        <div className="flex-1 min-w-0">
+                                                            <p className="text-slate-800 font-medium leading-tight truncate">{n.text}</p>
+                                                            <span className="text-[10px] text-slate-400">{n.time}</span>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <div className="p-6 text-center text-slate-400">No new notifications</div>
+                                            )}
                                         </div>
                                     </div>
                                 )}
                             </div>
 
-                            <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center border border-emerald-200">
+                            <div className="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center border border-slate-200 shadow-2xs">
                                 TA
                             </div>
                         </div>
                     </div>
 
                     {/* Page Header */}
-                    <div>
+                    <div className="bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs w-full">
                         <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Class progress reports</h1>
-                        <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Review learning progress across your class and plan the next support steps.</p>
+                        <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Review MATATAG curriculum learning progress across your class and plan next steps.</p>
                     </div>
 
                     {/* Top Metric Summary Cards */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
                         <div className="bg-white p-5 rounded-xl border border-slate-200/70 shadow-2xs space-y-1">
                             <span className="text-xs font-medium text-slate-500">Learners in class</span>
                             <div className="text-2xl font-bold text-slate-900">24</div>
                         </div>
-                        <div className="bg-emerald-50/60 p-5 rounded-xl border border-emerald-200/60 shadow-2xs space-y-1">
+                        <div className="bg-emerald-50/60 p-5 rounded-xl border border-slate-200/60 shadow-2xs space-y-1">
                             <span className="text-xs font-medium text-emerald-900">Lesson completion</span>
                             <div className="text-2xl font-bold text-emerald-950">86%</div>
                         </div>
-                        <div className="bg-amber-50/60 p-5 rounded-xl border border-amber-200/60 shadow-2xs space-y-1">
+                        <div className="bg-amber-50/60 p-5 rounded-xl border border-slate-200/60 shadow-2xs space-y-1">
                             <span className="text-xs font-medium text-amber-900">Check-ins requested</span>
                             <div className="text-2xl font-bold text-amber-950">3</div>
                         </div>
                     </div>
 
                     {/* Main Content Grid: Subject Progress (Left) & Next Support Steps (Right) */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start w-full">
                         
-                        {/* Left: Subject Progress Breakdown */}
-                        <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200/70 p-6 space-y-6 shadow-sm">
-                            <h2 className="text-sm font-bold text-slate-900">Subject progress</h2>
+                        {/* Left: Subject Progress Breakdown (5 MATATAG Curriculum Subjects with Pastel Line Colors) */}
+                        <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200/70 p-6 space-y-6 shadow-2xs">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-sm font-bold text-slate-900">MATATAG Subject Progress</h2>
+                                <span className="text-[11px] bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md font-medium border border-slate-200">Grade 1 Roster</span>
+                            </div>
 
                             <div className="space-y-5 text-xs">
                                 <div className="space-y-1.5">
                                     <div className="flex justify-between font-semibold text-slate-800">
-                                        <span>Math</span>
-                                        <span>4 / 5</span>
+                                        <span>Language</span>
+                                        <span>4 / 5 milestones</span>
                                     </div>
-                                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                                        <div className="bg-sky-400 h-full rounded-full w-4/5"></div>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-1.5">
-                                    <div className="flex justify-between font-semibold text-slate-800">
-                                        <span>Reading</span>
-                                        <span>3 / 5</span>
-                                    </div>
-                                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                                        <div className="bg-amber-400 h-full rounded-full w-3/5"></div>
+                                    <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                        <div className="bg-sky-200 h-full rounded-full w-4/5"></div>
                                     </div>
                                 </div>
 
                                 <div className="space-y-1.5">
                                     <div className="flex justify-between font-semibold text-slate-800">
-                                        <span>Science</span>
-                                        <span>4 / 5</span>
+                                        <span>Reading and Literacy</span>
+                                        <span>3 / 5 milestones</span>
                                     </div>
-                                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                                        <div className="bg-emerald-500 h-full rounded-full w-4/5"></div>
+                                    <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                        <div className="bg-amber-200 h-full rounded-full w-3/5"></div>
                                     </div>
                                 </div>
 
                                 <div className="space-y-1.5">
                                     <div className="flex justify-between font-semibold text-slate-800">
-                                        <span>Filipino</span>
-                                        <span>2 / 5</span>
+                                        <span>Mathematics</span>
+                                        <span>4 / 5 milestones</span>
                                     </div>
-                                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                                        <div className="bg-indigo-300 h-full rounded-full w-2/5"></div>
+                                    <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                        <div className="bg-blue-200 h-full rounded-full w-4/5"></div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-1.5">
+                                    <div className="flex justify-between font-semibold text-slate-800">
+                                        <span>Makabansa</span>
+                                        <span>4 / 5 milestones</span>
+                                    </div>
+                                    <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                        <div className="bg-emerald-200 h-full rounded-full w-4/5"></div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-1.5">
+                                    <div className="flex justify-between font-semibold text-slate-800">
+                                        <span>GMRC (Edukasyon sa Pagpapakatao)</span>
+                                        <span>5 / 5 milestones</span>
+                                    </div>
+                                    <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                        <div className="bg-purple-200 h-full rounded-full w-full"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Right: Next Support Steps */}
-                        <div className="bg-white rounded-xl border border-slate-200/70 p-6 space-y-4 shadow-sm">
+                        <div className="bg-white rounded-xl border border-slate-200/70 p-6 space-y-4 shadow-2xs">
                             <h2 className="text-sm font-bold text-slate-900">Next support steps</h2>
 
                             <div className="space-y-4 text-xs">
@@ -269,7 +291,7 @@ export default function TeacherReports() {
 
                                 <div className="space-y-1">
                                     <span className="font-bold text-slate-900 block">Follow up with families</span>
-                                    <p className="text-slate-600">Send a short progress update this week.</p>
+                                    <p className="text-slate-600">Send a short MATATAG progress update this week.</p>
                                 </div>
                             </div>
 

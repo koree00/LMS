@@ -41,11 +41,11 @@ export default function ICTInviteUser({ notifications = [], users = [] }: ICTInv
 
     // Mock initial user list if none passed from backend
     const [accountList, setAccountList] = useState<UserAccount[]>(users.length > 0 ? users : [
-        { id: 1, email: 'maria.santos@school.edu.ph', role: 'Inclusive teacher', accessScope: 'Section 1, Section 2', status: 'Active' },
-        { id: 2, email: 'juan.delacruz@school.edu.ph', role: 'Student (Grade 1 / SNED)', accessScope: 'Section 1', status: 'Active' },
-        { id: 3, email: 'elena.robles@school.edu.ph', role: 'SNED coordinator', accessScope: 'School-Wide Validation', status: 'Active' },
-        { id: 4, email: 'cynthia.tompong@school.edu.ph', role: 'Principal', accessScope: 'Full Oversight', status: 'Active' },
-        { id: 5, email: 'roberto.reyes@gmail.com', role: 'Parent / guardian', accessScope: 'Section 1 (Child Progress)', status: 'Pending' },
+        { id: 1, email: 'mara.sas@school.gmail.com', role: 'Inclusive teacher', accessScope: 'Section 1, Section 2', status: 'Active' },
+        { id: 2, email: 'juan.dacuraz@school.gmail.com', role: 'Student (Grade 1 / SNED)', accessScope: 'Section 1', status: 'Active' },
+        { id: 3, email: 'etel.ryes@school.gmail.com', role: 'SNED coordinator', accessScope: 'School-Wide Validation', status: 'Active' },
+        { id: 4, email: 'cherry.tiong@school.gmail.com', role: 'Principal', accessScope: 'Full Oversight', status: 'Active' },
+        { id: 5, email: 're.ryes@gmail.com', role: 'Parent / guardian', accessScope: 'Section 1 (Child Progress)', status: 'Pending' },
     ]);
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -554,7 +554,7 @@ export default function ICTInviteUser({ notifications = [], users = [] }: ICTInv
                                     type="text" 
                                     value={data.email}
                                     onChange={e => setData('email', e.target.value)}
-                                    placeholder="name@school.edu.ph" 
+                                    placeholder="name@gmail.com" 
                                     required
                                     className="w-full bg-slate-50/50 border border-slate-200 rounded-lg px-3.5 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-400 font-sans"
                                 />

@@ -96,7 +96,7 @@ export default function SnedValidationQueue({ notifications = [], pendingItems =
     const [queueItems, setQueueItems] = useState<ValidationItem[]>(pendingItems.length > 0 ? pendingItems : [
         {
             id: 1,
-            studentName: 'Leonardo R. Cruz',
+            studentName: 'Ronardo R. Cra',
             section: 'Grade 1 — Section 1',
             condition: 'Mild ASD',
             subject: 'Mathematics',
@@ -130,7 +130,7 @@ export default function SnedValidationQueue({ notifications = [], pendingItems =
             condition: 'ADHD',
             subject: 'Reading and Literacy',
             requestType: 'Alphabet Phonics & Bionic Reading',
-            submittedBy: 'Teacher Juan Dela Cruz',
+            submittedBy: 'Teacher Juan Da Curaz',
             timestamp: 'Yesterday, 2:40 PM',
             details: 'Review lesson adaptation for phoneme matching with bionic reading highlights.',
             status: 'Pending',
@@ -158,7 +158,7 @@ export default function SnedValidationQueue({ notifications = [], pendingItems =
             condition: 'Mild ASD',
             subject: 'Makabansa',
             requestType: 'Pamilya Ko Lesson Adaptation',
-            submittedBy: 'Teacher Maria Santos',
+            submittedBy: 'Teacher Mara Santos',
             timestamp: 'Nov 11, 11:20 AM',
             details: 'Review lesson adaptation for family members identification with high-contrast icons.',
             status: 'Approved',
@@ -180,7 +180,7 @@ export default function SnedValidationQueue({ notifications = [], pendingItems =
         },
         {
             id: 4,
-            studentName: 'Sofia Beatrice Reyes',
+            studentName: 'Sofia Res',
             section: 'Grade 1 — Section 1',
             condition: 'Mild ASD',
             subject: 'Language',
@@ -212,7 +212,7 @@ export default function SnedValidationQueue({ notifications = [], pendingItems =
             condition: 'ADHD',
             subject: 'GMRC',
             requestType: 'Pagmamahal sa Pamilya Values Check',
-            submittedBy: 'Teacher Juan Dela Cruz',
+            submittedBy: 'Teacher Juan Da Curaz',
             timestamp: 'Nov 10, 1:15 PM',
             details: 'Review values scenario story cards with short interactive choices.',
             status: 'Pending',
@@ -393,6 +393,10 @@ export default function SnedValidationQueue({ notifications = [], pendingItems =
                                     <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                                     {sidebarOpen && <span>Overview</span>}
                                 </Link>
+                                <Link href="/sned-coordinator/messages" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`} title="Messages">
+                                    <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                                    {sidebarOpen && <span>Messages</span>}
+                                </Link>
                                  <Link href="/sned-coordinator/learners" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`} title="Learners Profile">
                                                                     <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                                                                                                     {sidebarOpen && <span>Learners Profile</span>}
@@ -405,10 +409,7 @@ export default function SnedValidationQueue({ notifications = [], pendingItems =
                                     <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                                     {sidebarOpen && <span>Intervention & Flags</span>}
                                 </Link>
-                                <Link href="/sned-coordinator/messages" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`} title="Messages">
-                                    <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-                                    {sidebarOpen && <span>Messages</span>}
-                                </Link>
+                                
                                 <Link href="/sned-coordinator/settings" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`} title="User Settings">
                                     <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                                     {sidebarOpen && <span>User Settings</span>}

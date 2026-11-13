@@ -1,11 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Head, Link } from '@inertiajs/react';
 
-interface Notification {
+interface NotificationItem {
     id: number;
     text: string;
     time: string;
     unread: boolean;
+}
+
+interface ScheduleItem {
+    id: number;
+    day: string; // 'Monday', 'Tuesday', etc.
+    time: string;
+    title: string;
+    location: string;
+    colorTheme: string;
 }
 
 export default function TeacherSchedule() {
@@ -33,7 +42,7 @@ export default function TeacherSchedule() {
         };
     }, [notifOpen]);
 
-    const [notifications, setNotifications] = useState<Notification[]>([
+    const [notifications, setNotifications] = useState<NotificationItem[]>([
         { id: 1, text: 'New classroom observation note logged for Mia S.', time: '10m ago', unread: true },
         { id: 2, text: 'SNED validation review completed for Grade 1 math', time: '1h ago', unread: true },
     ]);
@@ -44,10 +53,60 @@ export default function TeacherSchedule() {
         setNotifications(notifications.map(n => ({ ...n, unread: false })));
     };
 
+    // Days selection state
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const [selectedDay, setSelectedDay] = useState<string>('Tuesday');
+
+    // Full schedule database state (editable)
+    const [schedules, setSchedules] = useState<ScheduleItem[]>([
+        { id: 1, day: 'Monday', time: '8:00 AM', title: 'Arrival and weekly goal setting', location: 'Room 1', colorTheme: 'bg-sky-50/50' },
+        { id: 2, day: 'Monday', time: '9:00 AM', title: 'Literacy & Letter recognition', location: 'Class 1', colorTheme: 'bg-indigo-50/50' },
+        { id: 3, day: 'Tuesday', time: '8:00 AM', title: 'Arrival and classroom check-in', location: 'Room 1', colorTheme: 'bg-sky-50/50' },
+        { id: 4, day: 'Tuesday', time: '9:00 AM', title: 'Math · Counting to 5', location: 'Class 1', colorTheme: 'bg-emerald-50/50' },
+        { id: 5, day: 'Tuesday', time: '10:00 AM', title: 'Movement break', location: 'Class 1', colorTheme: 'bg-amber-50/50' },
+        { id: 6, day: 'Tuesday', time: '10:30 AM', title: 'Reading · Letter sounds', location: 'Class 1', colorTheme: 'bg-indigo-50/50' },
+        { id: 7, day: 'Tuesday', time: '1:00 PM', title: 'Learner support check-in', location: 'Support room', colorTheme: 'bg-white' },
+        { id: 8, day: 'Wednesday', time: '8:30 AM', title: 'Inclusion science exploration', location: 'Class 1', colorTheme: 'bg-emerald-50/50' },
+        { id: 9, day: 'Thursday', time: '9:00 AM', title: 'Sensory arts & guided play', location: 'Activity Hall', colorTheme: 'bg-amber-50/50' },
+        { id: 10, day: 'Friday', time: '9:00 AM', title: 'Weekly progress review & wrap-up', location: 'Room 1', colorTheme: 'bg-sky-50/50' },
+    ]);
+
+    // Modal state for adding new schedule
+    const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+    const [newTime, setNewTime] = useState<string>('');
+    const [newTitle, setNewTitle] = useState<string>('');
+    const [newLocation, setNewLocation] = useState<string>('');
+
+    const handleAddSchedule = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!newTime || !newTitle) return;
+
+        const newItem: ScheduleItem = {
+            id: Date.now(),
+            day: selectedDay,
+            time: newTime,
+            title: newTitle,
+            location: newLocation || 'Class 1',
+            colorTheme: 'bg-emerald-50/50'
+        };
+
+        setSchedules([...schedules, newItem]);
+        setNewTime('');
+        setNewTitle('');
+        setNewLocation('');
+        setIsAddModalOpen(false);
+    };
+
+    const handleDeleteSchedule = (id: number) => {
+        setSchedules(schedules.filter(item => item.id !== id));
+    };
+
+    const filteredSchedules = schedules.filter(item => item.day === selectedDay);
+
     return (
         <>
             <Head title="Class schedule — Teacher Portal · San Mateo Elementary School" />
-            <div className="min-h-screen bg-slate-50/50 flex text-slate-700 overflow-x-hidden relative font-sans">
+            <div className="min-h-screen bg-slate-50/50 flex text-slate-700 w-full overflow-x-hidden relative font-sans box-border">
                 
                 {sidebarOpen && (
                     <div 
@@ -58,10 +117,10 @@ export default function TeacherSchedule() {
 
                 {/* Sidebar Navigation */}
                 <aside className={`
-                    fixed md:sticky top-0 h-screen z-50 bg-white border-r border-slate-200/70 p-4 md:p-5 flex flex-col justify-between transition-all duration-200 shrink-0 overflow-y-auto
-                    ${sidebarOpen ? 'translate-x-0 w-64 shadow-sm md:shadow-none' : '-translate-x-full md:w-20 md:-translate-x-0'}
+                    fixed inset-y-0 left-0 z-50 bg-white border-r border-slate-200/70 p-4 md:p-5 flex flex-col justify-between transition-all duration-200 shrink-0
+                    ${sidebarOpen ? 'w-64 shadow-sm md:shadow-none translate-x-0' : '-translate-x-full md:translate-x-0 md:w-20'}
                 `}>
-                    <div className="space-y-6">
+                    <div className="space-y-6 overflow-y-auto overflow-x-hidden flex-1 pr-1">
                         <div className={`flex items-center pb-4 border-b border-slate-100 ${sidebarOpen ? 'justify-between' : 'flex-col gap-3'}`}>
                             <div className="flex items-center gap-3 overflow-hidden">
                                 <div className="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-800 border border-slate-200/70 flex items-center justify-center font-bold text-xs shrink-0 shadow-2xs">
@@ -86,16 +145,6 @@ export default function TeacherSchedule() {
                             </button>
                         </div>
 
-                        {sidebarOpen && (
-                            <div className="relative">
-                                <input 
-                                    type="text" 
-                                    placeholder="Search..." 
-                                    className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-600 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-500 transition-all"
-                                />
-                            </div>
-                        )}
-
                         <div>
                             {sidebarOpen && (
                                 <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2 px-1">
@@ -104,27 +153,31 @@ export default function TeacherSchedule() {
                             )}
 
                             <nav className="space-y-1">
-                                <Link href="/teacher/overview" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen && 'md:justify-center px-0'}`}>
+                                <Link href="/teacher/overview" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
                                     <svg className="w-4 h-4 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                                     {sidebarOpen && <span>Overview</span>}
                                 </Link>
-                                <Link href="/teacher/learners" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen && 'md:justify-center px-0'}`}>
+                                <Link href="/teacher/learners" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
                                     <svg className="w-4 h-4 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                                     {sidebarOpen && <span>Learners</span>}
                                 </Link>
-                                <Link href="/teacher/lessons" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen && 'md:justify-center px-0'}`}>
+                                <Link href="/teacher/lessons" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
                                     <svg className="w-4 h-4 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                                     {sidebarOpen && <span>Lessons</span>}
                                 </Link>
-                                <Link href="/teacher/observations" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen && 'md:justify-center px-0'}`}>
+                                <Link href="/teacher/observations" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
                                     <svg className="w-4 h-4 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
                                     {sidebarOpen && <span>Observations</span>}
                                 </Link>
-                                <Link href="/teacher/reports" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen && 'md:justify-center px-0'}`}>
+                                <Link href="/teacher/reports" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
                                     <svg className="w-4 h-4 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
                                     {sidebarOpen && <span>Reports</span>}
                                 </Link>
-                                <Link href="/teacher/schedule" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg bg-emerald-50 text-emerald-900 font-medium text-xs border border-emerald-100 transition-all ${!sidebarOpen && 'md:justify-center px-0'}`}>
+                                <Link href="/teacher/messages" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-500 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
+                                    <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                                    {sidebarOpen && <span>Messages</span>}
+                                </Link>
+                                <Link href="/teacher/schedule" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg bg-emerald-50 text-emerald-900 font-medium text-xs border border-slate-100 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
                                     <svg className="w-4 h-4 shrink-0 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                     {sidebarOpen && <span>Schedule</span>}
                                 </Link>
@@ -132,122 +185,219 @@ export default function TeacherSchedule() {
                         </div>
                     </div>
 
-                    <div className="space-y-2.5 pt-4 border-t border-slate-100">
-                        <Link href="/login" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-rose-50/50 text-rose-600 font-medium text-xs border border-transparent hover:border-rose-100 transition-all ${!sidebarOpen && 'md:justify-center px-0'}`}>
-                            <svg className="w-4 h-4 shrink-0 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    <div className="space-y-2.5 pt-4 border-t border-slate-100 shrink-0 bg-white">
+                        <Link href="/login" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-rose-50/50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-100 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`}>
+                            <svg className="w-4 h-4 shrink-0 text-slate" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                             {sidebarOpen && <span>Sign out</span>}
                         </Link>
                     </div>
                 </aside>
 
                 {/* Main Content Area */}
-                <main className="flex-1 py-6 px-4 sm:px-8 lg:px-10 max-w-7xl mx-auto space-y-6">
+                <main className={`flex-1 w-full min-w-0 py-5 px-4 sm:px-8 lg:px-10 space-y-6 transition-all duration-200 ${sidebarOpen ? 'md:ml-64' : 'md:ml-20'}`}>
                     
                     {/* Top Bar Header */}
-                    <div className="flex items-center justify-between bg-white p-3.5 sm:px-6 rounded-xl border border-slate-200/70 shadow-sm w-full">
-                        <div className="flex items-center gap-3">
-                            <button onClick={() => setSidebarOpen(true)} className="md:hidden p-1.5 rounded-lg text-slate-600 hover:bg-slate-50 border border-slate-200">
+                    <div className="flex items-center justify-between bg-white p-3.5 sm:px-6 rounded-xl border border-slate-200/70 shadow-sm w-full box-border">
+                        <div className="flex items-center gap-3 min-w-0">
+                            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-1.5 rounded-lg text-slate-600 hover:bg-slate-50 border border-slate-200 cursor-pointer shrink-0">
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M4 6h16M4 12h16M4 18h16"/></svg>
                             </button>
-                            <span className="text-xs font-semibold text-slate-500">Class schedule / Teacher</span>
+                            <span className="text-xs font-semibold text-slate-500 truncate">Class schedule / Teacher</span>
                         </div>
 
-                        <div className="flex items-center gap-3">
-                            <div className="relative hidden sm:block">
-                                <input type="text" placeholder="Search..." className="w-56 bg-slate-50/50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-400" />
-                            </div>
-                            
+                        <div className="flex items-center gap-3 shrink-0">
+                            {/* Notification Dropdown */}
                             <div className="relative" ref={notifRef}>
-                                <button onClick={() => setNotifOpen(!notifOpen)} className="w-8 h-8 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 text-xs font-bold cursor-pointer">
-                                    {unreadCount}
+                                <button 
+                                    onClick={() => setNotifOpen(!notifOpen)}
+                                    className="relative p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-all border border-slate-200 cursor-pointer"
+                                    title="Notifications"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                                    {unreadCount > 0 && (
+                                        <span className="absolute -top-1 -right-1 bg-rose-500 text-white font-bold text-[9px] w-4 h-4 rounded-full flex items-center justify-center shadow-2xs">
+                                            {unreadCount}
+                                        </span>
+                                    )}
                                 </button>
                                 {notifOpen && (
-                                    <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-slate-200/70 p-3 z-50">
-                                        <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 mb-2">
-                                            <span className="text-xs font-semibold text-slate-800">Notifications ({unreadCount})</span>
-                                            <button onClick={markAllAsRead} className="text-[11px] text-[#4B8B6B] hover:underline font-medium cursor-pointer">Mark all read</button>
+                                    <div className="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden text-xs">
+                                        <div className="flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-100 font-bold text-slate-800">
+                                            <span>Notifications</span>
+                                            {unreadCount > 0 && (
+                                                <button onClick={markAllAsRead} className="text-[11px] text-emerald-700 hover:underline font-medium cursor-pointer">Mark all read</button>
+                                            )}
                                         </div>
-                                        <div className="space-y-2 max-h-56 overflow-y-auto">
-                                            {notifications.map(n => (
-                                                <div key={n.id} className={`p-2 rounded-lg text-xs border ${n.unread ? 'bg-emerald-50/50 border-emerald-100 font-medium' : 'bg-white border-slate-100 text-slate-500'}`}>
-                                                    <p className="leading-snug">{n.text}</p>
-                                                    <span className="text-[10px] text-slate-400 mt-0.5 block">{n.time}</span>
-                                                </div>
-                                            ))}
+                                        <div className="max-h-64 overflow-y-auto divide-y divide-slate-100">
+                                            {notifications.length > 0 ? (
+                                                notifications.map(n => (
+                                                    <div key={n.id} className={`p-3 hover:bg-slate-50 cursor-pointer transition-all flex items-start gap-2.5 ${n.unread ? 'bg-emerald-50/40' : ''}`}>
+                                                        <span className={`w-2 h-2 rounded-full mt-1 shrink-0 ${n.unread ? 'bg-emerald-500' : 'bg-slate-300'}`}></span>
+                                                        <div className="flex-1 min-w-0">
+                                                            <p className="text-slate-800 font-medium leading-tight truncate">{n.text}</p>
+                                                            <span className="text-[10px] text-slate-400">{n.time}</span>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <div className="p-6 text-center text-slate-400">No new notifications</div>
+                                            )}
                                         </div>
                                     </div>
                                 )}
                             </div>
 
-                            <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center border border-emerald-200">
+                            <div className="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center border border-slate-200 shadow-2xs">
                                 TA
                             </div>
                         </div>
                     </div>
 
                     {/* Page Header */}
-                    <div>
-                        <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Class schedule</h1>
-                        <p className="text-xs sm:text-sm text-slate-500 mt-0.5">A simple view of today's teaching and support times.</p>
+                    <div className="bg-white p-6 rounded-2xl border border-slate-200/70 shadow-sm w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div>
+                            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Class schedule</h1>
+                            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Manage weekly teaching agendas and daily support times.</p>
+                        </div>
+                        <button 
+                            onClick={() => setIsAddModalOpen(true)}
+                            className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs px-4 py-2.5 rounded-xl transition-all shadow-sm flex items-center gap-2 cursor-pointer w-fit"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"/></svg>
+                            <span>Add time block</span>
+                        </button>
                     </div>
 
-                    {/* Schedule Card Container */}
-                    <div className="bg-white rounded-xl border border-slate-200/70 p-6 space-y-6 shadow-sm">
-                        <h2 className="text-sm font-bold text-slate-900">Tuesday schedule</h2>
+                    {/* Interactive Calendar / Day Selector Tabs */}
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 bg-white p-2 rounded-xl border border-slate-200/70 shadow-sm">
+                        {days.map((day) => (
+                            <button
+                                key={day}
+                                onClick={() => setSelectedDay(day)}
+                                className={`py-2.5 px-3 rounded-lg text-xs font-semibold transition-all cursor-pointer text-center ${selectedDay === day ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-50'}`}
+                            >
+                                {day}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Schedule Card Container for Selected Day */}
+                    <div className="bg-white rounded-xl border border-slate-200/70 p-6 space-y-6 shadow-sm w-full">
+                        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                            <div>
+                                <h2 className="text-sm font-bold text-slate-900">{selectedDay} Schedule</h2>
+                                <p className="text-xs text-slate-400 mt-0.5">{filteredSchedules.length} time blocks scheduled</p>
+                            </div>
+                            <span className="text-xs font-medium text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-slate-100">
+                                Active term
+                            </span>
+                        </div>
 
                         <div className="space-y-3">
-                            {/* 8:00 Arrival */}
-                            <div className="p-4 bg-sky-50/50 border border-sky-200/70 rounded-xl flex items-center justify-between text-xs">
-                                <div className="flex items-center gap-4">
-                                    <span className="font-bold text-slate-900 w-12">8:00</span>
-                                    <span className="font-semibold text-slate-800">Arrival and classroom check-in</span>
+                            {filteredSchedules.length > 0 ? (
+                                filteredSchedules.map((item) => (
+                                    <div key={item.id} className={`p-4 ${item.colorTheme} border border-slate-200/70 rounded-xl flex items-center justify-between text-xs transition-all hover:shadow-2xs`}>
+                                        <div className="flex items-center gap-4">
+                                            <span className="font-bold text-slate-900 w-16">{item.time}</span>
+                                            <div>
+                                                <span className="font-semibold text-slate-800 block">{item.title}</span>
+                                                <span className="text-[11px] text-slate-500">{item.location}</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-slate-700 font-medium bg-white/80 px-2.5 py-1 rounded-md border border-slate-200/60 shadow-2xs">
+                                                {item.location}
+                                            </span>
+                                            <button 
+                                                onClick={() => handleDeleteSchedule(item.id)}
+                                                className="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-white transition-all cursor-pointer"
+                                                title="Delete time block"
+                                            >
+                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="text-center py-12 text-slate-400 text-xs">
+                                    No time blocks scheduled for {selectedDay}. Click "Add time block" above to add one.
                                 </div>
-                                <span className="text-slate-500 font-medium">Room 1</span>
-                            </div>
-
-                            {/* 9:00 Math */}
-                            <div className="p-4 bg-emerald-50/50 border border-emerald-200/70 rounded-xl flex items-center justify-between text-xs">
-                                <div className="flex items-center gap-4">
-                                    <span className="font-bold text-slate-900 w-12">9:00</span>
-                                    <span className="font-semibold text-slate-800">Math · Counting to 5</span>
-                                </div>
-                                <span className="text-emerald-800 font-medium">Class 1</span>
-                            </div>
-
-                            {/* 10:00 Movement break */}
-                            <div className="p-4 bg-amber-50/50 border border-amber-200/70 rounded-xl flex items-center justify-between text-xs">
-                                <div className="flex items-center gap-4">
-                                    <span className="font-bold text-slate-900 w-12">10:00</span>
-                                    <span className="font-semibold text-slate-800">Movement break</span>
-                                </div>
-                                <span className="text-amber-800 font-medium">Class 1</span>
-                            </div>
-
-                            {/* 10:30 Reading */}
-                            <div className="p-4 bg-indigo-50/50 border border-indigo-200/70 rounded-xl flex items-center justify-between text-xs">
-                                <div className="flex items-center gap-4">
-                                    <span className="font-bold text-slate-900 w-12">10:30</span>
-                                    <span className="font-semibold text-slate-800">Reading · Letter sounds</span>
-                                </div>
-                                <span className="text-indigo-800 font-medium">Class 1</span>
-                            </div>
-
-                            {/* 1:00 Support check-in */}
-                            <div className="p-4 bg-white border border-slate-200/70 rounded-xl flex items-center justify-between text-xs">
-                                <div className="flex items-center gap-4">
-                                    <span className="font-bold text-slate-900 w-12">1:00</span>
-                                    <span className="font-semibold text-slate-800">Learner support check-in</span>
-                                </div>
-                                <span className="text-slate-500 font-medium">Support room</span>
-                            </div>
+                            )}
                         </div>
 
                         <div className="pt-2">
-                            <Link href="/teacher/overview" className="w-fit py-2 px-4 border border-emerald-600 text-emerald-800 hover:bg-emerald-50 text-xs font-medium rounded-lg transition-all flex items-center justify-center cursor-pointer">
+                            <Link href="/teacher/overview" className="w-fit py-2 px-4 border border-slate-200 text-slate-600 hover:bg-emerald-50 text-xs font-medium rounded-lg transition-all flex items-center justify-center cursor-pointer">
                                 Return to teacher overview
                             </Link>
                         </div>
                     </div>
+
+                    {/* Add Schedule Modal */}
+                    {isAddModalOpen && (
+                        <div className="fixed inset-0 bg-slate-900/40 z-50 flex items-center justify-center p-4 backdrop-blur-3xs">
+                            <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl border border-slate-200 space-y-4">
+                                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                                    <h3 className="font-bold text-slate-900 text-sm">Add Time Block for {selectedDay}</h3>
+                                    <button onClick={() => setIsAddModalOpen(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    </button>
+                                </div>
+
+                                <form onSubmit={handleAddSchedule} className="space-y-3 text-xs">
+                                    <div>
+                                        <label className="block font-medium text-slate-700 mb-1">Time (e.g., 11:00 AM)</label>
+                                        <input 
+                                            type="text" 
+                                            required
+                                            value={newTime}
+                                            onChange={(e) => setNewTime(e.target.value)}
+                                            placeholder="e.g. 11:00 AM" 
+                                            className="w-full border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block font-medium text-slate-700 mb-1">Activity / Title</label>
+                                        <input 
+                                            type="text" 
+                                            required
+                                            value={newTitle}
+                                            onChange={(e) => setNewTitle(e.target.value)}
+                                            placeholder="e.g. Guided Reading & Phonics" 
+                                            className="w-full border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block font-medium text-slate-700 mb-1">Location / Room</label>
+                                        <input 
+                                            type="text" 
+                                            value={newLocation}
+                                            onChange={(e) => setNewLocation(e.target.value)}
+                                            placeholder="e.g. Class 1 or Support Room" 
+                                            className="w-full border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                                        />
+                                    </div>
+
+                                    <div className="flex items-center justify-end gap-2 pt-3">
+                                        <button 
+                                            type="button" 
+                                            onClick={() => setIsAddModalOpen(false)}
+                                            className="px-4 py-2 border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 cursor-pointer"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button 
+                                            type="submit" 
+                                            className="px-4 py-2 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 cursor-pointer shadow-sm"
+                                        >
+                                            Save Schedule
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
 
                 </main>
             </div>

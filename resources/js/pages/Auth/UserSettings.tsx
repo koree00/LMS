@@ -158,7 +158,7 @@ export default function UserSettings({
                     <div className="space-y-6 overflow-y-auto overflow-x-hidden flex-1 pr-1">
                         <div className={`flex items-center pb-4 border-b border-slate-100 ${sidebarOpen ? 'justify-between' : 'flex-col gap-3'}`}>
                             <div className="flex items-center gap-3 overflow-hidden">
-                                <div className="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-800 border border-slate-200/70 flex items-center justify-center font-bold text-xs shrink-0 shadow-2xs">SM</div>
+                                <div className="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-800 border border-slate-200/70 flex items-center justify-center font-bold text-xs shrink-0 shadow-2xs">EQ</div>
                                 {sidebarOpen && (
                                     <div className="truncate">
                                         <span className="font-bold text-slate-900 block text-xs leading-tight">EduQuestAI</span>

@@ -517,7 +517,7 @@ export default function AdminUsers({ notifications = [], users = [] }: AdminUser
                                     type="email" 
                                     value={newUserEmail}
                                     onChange={(e) => setNewUserEmail(e.target.value)}
-                                    placeholder="e.g. juan.delacruz@sanmateo-es.edu.ph" 
+                                    placeholder="e.g. juan.delacruz@gmail.com"
                                     required 
                                     className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" 
                                 />

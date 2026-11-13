@@ -72,7 +72,7 @@ export default function SnedInterventionLogs({ notifications = [], logs = [] }: 
         {
             id: 2,
             studentId: 1,
-            studentName: 'Leonardo R. Cruz',
+            studentName: 'Ronardo R. Cra',
             section: 'Grade 1 — Section 1',
             flagType: 'Milestone Progression Reached (Reading Comprehension Tier 1)',
             severity: 'Low',
@@ -189,6 +189,10 @@ export default function SnedInterventionLogs({ notifications = [], logs = [] }: 
                                     <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                                     {sidebarOpen && <span>Overview</span>}
                                 </Link>
+                                <Link href="/sned-coordinator/messages" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`} title="Messages">
+                                    <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                                    {sidebarOpen && <span>Messages</span>}
+                                </Link>
                                 <Link href="/sned-coordinator/learners" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`} title="Learners Profile">
                                     <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                                     {sidebarOpen && <span>Learners Profile</span>}
@@ -202,10 +206,7 @@ export default function SnedInterventionLogs({ notifications = [], logs = [] }: 
                                     {sidebarOpen && <span>Intervention & Flags</span>}
                                 </Link>
                             
-                                <Link href="/sned-coordinator/messages" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`} title="Messages">
-                                    <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
-                                    {sidebarOpen && <span>Messages</span>}
-                                </Link>
+                                
                                 <Link href="/sned-coordinator/settings" className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600 font-medium text-xs border border-transparent hover:border-slate-200/70 transition-all ${!sidebarOpen ? 'md:justify-center px-0' : ''}`} title="User Settings">
                                     <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                                     {sidebarOpen && <span>My Settings</span>}
@@ -295,7 +296,7 @@ export default function SnedInterventionLogs({ notifications = [], logs = [] }: 
                                     <h1 className="text-sm font-bold text-slate-900">Behavioral Telemetry & Automated Alert Flags</h1>
                                     <p className="text-[11px] text-slate-500 mt-0.5">Select a class section below to review pending intervention flags and learner telemetry.</p>
                                 </div>
-                                <span className="px-3 py-1 bg-amber-50 text-amber-800 border border-slate-200/60 font-bold text-xs rounded-full">
+                                <span className="px-3 py-1 bg-amber-50 text-slate border border-slate-200/60 font-bold text-xs rounded-full">
                                     {totalPendingCount} Total Pending Review
                                 </span>
                             </div>
@@ -326,7 +327,7 @@ export default function SnedInterventionLogs({ notifications = [], logs = [] }: 
                                                     </div>
                                                 </div>
                                                 <span className={`px-3 py-1 rounded-full text-[10px] font-bold ${
-                                                    pendingInSec > 0 ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
+                                                    pendingInSec > 0 ? 'bg-amber-100 text-slate' : 'bg-slate-100 text-emerald-800'
                                                 }`}>
                                                     {pendingInSec} Pending
                                                 </span>
@@ -338,8 +339,8 @@ export default function SnedInterventionLogs({ notifications = [], logs = [] }: 
                                                     <span className="text-sm font-extrabold text-rose-900">{highCount}</span>
                                                 </div>
                                                 <div className="bg-amber-50/60 border border-slate-200/50 rounded-xl p-2">
-                                                    <span className="text-[9px] font-bold text-amber-700 uppercase block">Medium</span>
-                                                    <span className="text-sm font-extrabold text-amber-900">{medCount}</span>
+                                                    <span className="text-[9px] font-bold text-slate-700 uppercase block">Medium</span>
+                                                    <span className="text-sm font-extrabold text-slate-900">{medCount}</span>
                                                 </div>
                                                 <div className="bg-emerald-50/60 border border-slate-200/50 rounded-xl p-2">
                                                     <span className="text-[9px] font-bold text-emerald-700 uppercase block">Low</span>
@@ -452,7 +453,7 @@ export default function SnedInterventionLogs({ notifications = [], logs = [] }: 
                                                 <div className="flex items-center gap-3">
                                                     <div className={`w-9 h-9 rounded-xl font-bold text-xs flex items-center justify-center border shrink-0 ${
                                                         log.severity === 'High' ? 'bg-rose-100 text-rose-900 border-slate-200' :
-                                                        log.severity === 'Medium' ? 'bg-amber-100 text-amber-900 border-slate-200' :
+                                                        log.severity === 'Medium' ? 'bg-amber-100 text-slate-900 border-slate-200' :
                                                         'bg-emerald-100 text-emerald-900 border-slate-200'
                                                     }`}>
                                                         {log.severity === 'High' ? '⚠️' : log.severity === 'Medium' ? '⚡' : '✓'}
@@ -474,13 +475,13 @@ export default function SnedInterventionLogs({ notifications = [], logs = [] }: 
                                                 <div className="flex items-center gap-2">
                                                     <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
                                                         log.severity === 'High' ? 'bg-rose-50 text-rose-700 border border-slate-200/60' :
-                                                        log.severity === 'Medium' ? 'bg-amber-50 text-amber-700 border border-slate-200/60' :
+                                                        log.severity === 'Medium' ? 'bg-amber-50 text-slate-700 border border-slate-200/60' :
                                                         'bg-emerald-50 text-emerald-700 border border-slate-200/60'
                                                     }`}>
                                                         {log.severity} Priority
                                                     </span>
                                                     <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
-                                                        log.status === 'Pending Review' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
+                                                        log.status === 'Pending Review' ? 'bg-amber-100 text-slate-700' : 'bg-emerald-100 text-emerald-800'
                                                     }`}>
                                                         {log.status}
                                                     </span>
@@ -546,7 +547,7 @@ export default function SnedInterventionLogs({ notifications = [], logs = [] }: 
     </button>
     <button 
         onClick={() => setIsManualModalOpen(true)}
-        className="w-full sm:flex-1 h-10 px-4 bg-amber-50 hover:bg-amber-100 text-amber-800 font-semibold rounded-xl text-xs border border-slate-200/60 transition-all cursor-pointer flex items-center justify-center text-center whitespace-nowrap overflow-hidden text-ellipsis"
+        className="w-full sm:flex-1 h-10 px-4 bg-amber-50 hover:bg-amber-100 text-slate-700 font-semibold rounded-xl text-xs border border-slate-200/60 transition-all cursor-pointer flex items-center justify-center text-center whitespace-nowrap overflow-hidden text-ellipsis"
     >
         Manually Adjust
     </button>

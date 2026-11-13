@@ -27,7 +27,7 @@ export default function Login() {
                     {/* Header */}
                     <div className="flex items-center gap-3.5 mb-6">
                         <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-800 font-bold text-sm shrink-0">
-                            SM
+                            EQ
                         </div>
                         <div>
                             <span className="font-bold text-slate-900 block text-lg leading-tight">San Mateo Elementary School</span>
@@ -47,7 +47,7 @@ export default function Login() {
                                 value={data.email}
                                 onChange={e => setData('email', e.target.value)}
                                 className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-emerald-400 focus:border-emerald-500 focus:outline-none text-sm bg-white transition-all" 
-                                placeholder="name@school.edu.ph" 
+                                placeholder="name@gmail.com" 
                                 aria-label="School email address"
                                 required
                             />

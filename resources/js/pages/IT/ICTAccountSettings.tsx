@@ -48,7 +48,7 @@ export default function ICTAccountSettings({ notifications = [], user }: ICTAcco
     // Inertia form for personal profile updates (including avatar file)
     const profileForm = useForm({
         name: user?.name ?? 'ICT Administrator',
-        email: user?.email ?? 'it.lead@school.edu.ph',
+        email: user?.email ?? 'it.lead@gmail.com',
         department: user?.department ?? 'ICT Infrastructure & Operations',
         avatar: null as File | null,
     });
