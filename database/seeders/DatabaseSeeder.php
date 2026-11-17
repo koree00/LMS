@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\Role;
 use App\Models\Section;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -28,5 +29,9 @@ class DatabaseSeeder extends Seeder
             'role' => Role::Teacher,
             'section_id' => $section->id,
         ]);
+
+        foreach (['Mathematics', 'Mother Tongue', 'English', 'Araling Panlipunan', 'MAPEH'] as $name) {
+            Subject::firstOrCreate(['name' => $name]);
+        }
     }
 }

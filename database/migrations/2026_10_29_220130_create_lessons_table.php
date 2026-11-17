@@ -6,20 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('subject_id')->constrained();
+            $table->foreignId('teacher_id')->constrained('users');
+            $table->string('title');
+            $table->string('source_path')->nullable();
+            $table->string('status', 20)->default('uploaded');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('lessons');

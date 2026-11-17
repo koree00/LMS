@@ -1,28 +1,27 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Model;
+
+class AccessibilityProfile extends Model
 {
-    public function up(): void
+    protected $fillable = [
+        'student_id', 'theme', 'font_scale', 'max_activity_seconds',
+        'reduce_motion', 'sound_enabled', 'is_safe_mode',
+    ];
+
+    protected function casts(): array
     {
-    Schema::create('accessibility_profiles', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('student_id')->unique()->constrained()->cascadeOnDelete();
-    $table->string('theme')->default('soft_pastel');
-    $table->decimal('font_scale', 3, 1)->default(1.2);
-    $table->unsignedSmallInteger('max_activity_seconds')->default(180);
-    $table->boolean('reduce_motion')->default(true);
-    $table->boolean('sound_enabled')->default(false);
-    $table->boolean('is_safe_mode')->default(false);
-    $table->timestamps();
-});
+        return [
+            'reduce_motion' => 'boolean',
+            'sound_enabled' => 'boolean',
+            'is_safe_mode' => 'boolean',
+        ];
     }
 
-    public function down(): void
+    public function student()
     {
-        Schema::dropIfExists('TABLE_NAME');
+        return $this->belongsTo(Student::class);
     }
-};
+}

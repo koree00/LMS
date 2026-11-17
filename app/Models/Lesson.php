@@ -1,27 +1,25 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Model;
+
+class Lesson extends Model
 {
-    public function up(): void
+    protected $fillable = ['subject_id', 'teacher_id', 'title', 'source_path', 'status'];
+
+    public function subject()
     {
-    Schema::create('lessons', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('subject_id')->constrained();
-    $table->foreignId('teacher_id')->constrained('users');
-    $table->string('title');
-    $table->string('source_path')->nullable();   // the uploaded photo or PDF
-    $table->enum('status', ['uploaded', 'processing', 'draft', 'approved', 'failed'])
-          ->default('uploaded');
-    $table->timestamps();
-});
+        return $this->belongsTo(Subject::class);
     }
 
-    public function down(): void
+    public function teacher()
     {
-        Schema::dropIfExists('TABLE_NAME');
+        return $this->belongsTo(User::class, 'teacher_id');
     }
-};
+
+    public function levels()
+    {
+        return $this->hasMany(Level::class)->orderBy('order');
+    }
+}

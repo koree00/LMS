@@ -1,26 +1,23 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Model;
+
+class Activity extends Model
 {
-    public function up(): void
+    protected $fillable = ['level_id', 'type', 'content', 'status', 'ai_generated'];
+
+    protected function casts(): array
     {
-    Schema::create('activities', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('level_id')->constrained()->cascadeOnDelete();
-    $table->enum('type', ['multiple_choice', 'drag_match', 'tap_count', 'trace_letter']);
-    $table->jsonb('content');
-    $table->enum('status', ['draft', 'approved', 'rejected'])->default('draft');
-    $table->boolean('ai_generated')->default(false);
-    $table->timestamps();
-});
+        return [
+            'content' => 'array',
+            'ai_generated' => 'boolean',
+        ];
     }
 
-    public function down(): void
+    public function level()
     {
-        Schema::dropIfExists('TABLE_NAME');
+        return $this->belongsTo(Level::class);
     }
-};
+}

@@ -69,7 +69,17 @@ class StudentController extends Controller
             'pin' => $pin, // shown only this once
         ], 201);
     }
+public function resetPin(Request $request, int $id)
+{
+    $student = $this->visibleStudents($request)->findOrFail($id);
 
+    $pin = str_pad((string) random_int(0, 9999), 4, '0', STR_PAD_LEFT);
+
+    $student->update(['login_pin_hash' => Hash::make($pin)]);
+    $student->tokens()->delete(); // signs the student out everywhere
+
+    return response()->json(['login_code' => $student->login_code, 'pin' => $pin]);
+}
     // Teachers see only their own section. Other staff roles see all students.
     private function visibleStudents(Request $request)
     {

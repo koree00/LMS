@@ -1,22 +1,15 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Model;
+
+class Subject extends Model
 {
-    public function up(): void
-    {
-    Schema::create('subjects', function (Blueprint $table) {
-    $table->id();
-    $table->string('name')->unique();   // Mathematics, Mother Tongue/English, etc.
-    $table->timestamps();
-});
-    }
+    protected $fillable = ['name'];
 
-    public function down(): void
+    public function lessons()
     {
-        Schema::dropIfExists('TABLE_NAME');
+        return $this->hasMany(Lesson::class);
     }
-};
+}

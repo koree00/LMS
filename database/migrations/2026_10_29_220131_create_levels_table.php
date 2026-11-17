@@ -6,20 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('levels', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('lesson_id')->constrained()->cascadeOnDelete();
+            $table->unsignedSmallInteger('order');
+            $table->string('title');
             $table->timestamps();
+            $table->unique(['lesson_id', 'order']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('levels');

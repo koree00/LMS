@@ -21,8 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'role' => \App\Http\Middleware\EnsureRole::class,
-        ]);
+    'role' => \App\Http\Middleware\EnsureRole::class,
+    'student' => \App\Http\Middleware\EnsureStudent::class,
+]);
 
         $middleware->redirectGuestsTo(fn () => null);
     })

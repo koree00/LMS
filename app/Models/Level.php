@@ -1,25 +1,20 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Model;
+
+class Level extends Model
 {
-    public function up(): void
+    protected $fillable = ['lesson_id', 'order', 'title'];
+
+    public function lesson()
     {
-    Schema::create('levels', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('lesson_id')->constrained()->cascadeOnDelete();
-    $table->unsignedSmallInteger('order');
-    $table->string('title');
-    $table->timestamps();
-    $table->unique(['lesson_id', 'order']);
-});
+        return $this->belongsTo(Lesson::class);
     }
 
-    public function down(): void
+    public function activities()
     {
-        Schema::dropIfExists('TABLE_NAME');
+        return $this->hasMany(Activity::class);
     }
-};
+}
