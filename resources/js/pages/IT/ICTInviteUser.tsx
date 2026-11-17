@@ -428,10 +428,10 @@ export default function ICTInviteUser({ notifications = [], users = [] }: ICTInv
                                                 <td className="py-3.5 px-4 font-medium text-slate-900">{u.email}</td>
                                                 <td className="py-3.5 px-4">
                                                     <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-medium ${
-                                                        u.role === 'Inclusive teacher' ? 'bg-blue-50 text-slate-700 border border-slate-100' :
-                                                        u.role.includes('Student') ? 'bg-emerald-50 text-slate-800 border border-slate-100' :
-                                                        u.role === 'SNED coordinator' ? 'bg-purple-50 text-slate-700 border border-slate-100' :
-                                                        u.role === 'Principal' ? 'bg-amber-50 text-slate-700 border border-slate-100' :
+                                                        u.role === 'Inclusive teacher' ? 'bg-slate-50 text-slate-700 border border-slate-100' :
+                                                        u.role.includes('Student') ? 'bg-slate-50 text-slate-800 border border-slate-100' :
+                                                        u.role === 'SNED coordinator' ? 'bg-slate-50 text-slate-700 border border-slate-100' :
+                                                        u.role === 'Principal' ? 'bg-slate-50 text-slate-700 border border-slate-100' :
                                                         'bg-slate-100 text-slate-700 border border-slate-200'
                                                     }`}>
                                                         {u.role}
@@ -453,12 +453,7 @@ export default function ICTInviteUser({ notifications = [], users = [] }: ICTInv
                                                     >
                                                         Edit
                                                     </button>
-                                                    <button 
-                                                        onClick={() => setRevokingUser(u)} 
-                                                        className="text-rose-400 hover:text-slate-800 font-semibold cursor-pointer"
-                                                    >
-                                                        Revoke
-                                                    </button>
+                                                    
                                                 </td>
                                             </tr>
                                         ))
@@ -481,10 +476,10 @@ export default function ICTInviteUser({ notifications = [], users = [] }: ICTInv
                                                 <p className="font-semibold text-slate-900 text-xs break-all leading-snug">{u.email}</p>
                                                 <div className="mt-1.5">
                                                     <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium ${
-                                                        u.role === 'Inclusive teacher' ? 'bg-blue-50 text-slate-700 border border-slate-100' :
-                                                        u.role.includes('Student') ? 'bg-emerald-50 text-slate-800 border border-slate-100' :
-                                                        u.role === 'SNED coordinator' ? 'bg-purple-50 text-slate-700 border border-slate-100' :
-                                                        u.role === 'Principal' ? 'bg-amber-50 text-slate-700 border border-slate-100' :
+                                                        u.role === 'Inclusive teacher' ? 'bg-slate-50 text-slate-700 border border-slate-100' :
+                                                        u.role.includes('Student') ? 'bg-slate-50 text-slate-800 border border-slate-100' :
+                                                        u.role === 'SNED coordinator' ? 'bg-slate-50 text-slate-700 border border-slate-100' :
+                                                        u.role === 'Principal' ? 'bg-slate-50 text-slate-700 border border-slate-100' :
                                                         'bg-slate-100 text-slate-800 border border-slate-200'
                                                     }`}>
                                                         {u.role}
@@ -758,21 +753,35 @@ export default function ICTInviteUser({ notifications = [], users = [] }: ICTInv
                                 )}
                             </div>
 
-                            <div className="pt-3 flex items-center justify-end gap-2 border-t border-slate-100">
-                                <button
-                                    type="button"
-                                    onClick={() => setEditingUser(null)}
-                                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl transition-all cursor-pointer"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 bg-[#4B8B6B] hover:bg-[#3D7257] text-white font-medium rounded-xl transition-all cursor-pointer shadow-sm"
-                                >
-                                    Save changes
-                                </button>
-                            </div>
+                            <div className="pt-4 flex items-center justify-between w-full border-t border-slate-100">
+    <button
+        type="button"
+        onClick={() => {
+            const userToRevoke = editingUser;
+            setEditingUser(null);
+            setRevokingUser(userToRevoke);
+        }}
+        className="px-4 py-2 text-rose-600 border border-rose-200 hover:bg-rose-50 font-medium rounded-xl transition-all cursor-pointer text-xs"
+    >
+        Revoke access
+    </button>
+
+    <div className="flex items-center gap-2">
+        <button
+            type="button"
+            onClick={() => setEditingUser(null)}
+            className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl transition-all cursor-pointer text-xs"
+        >
+            Cancel
+        </button>
+        <button
+            type="submit"
+            className="px-4 py-2 bg-[#4B8B6B] hover:bg-[#3D7257] text-white font-medium rounded-xl transition-all cursor-pointer shadow-sm text-xs"
+        >
+            Save changes
+        </button>
+    </div>
+</div>
                         </form>
                     </div>
                 </div>

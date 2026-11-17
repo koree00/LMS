@@ -8,6 +8,10 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\AdminReportController;
 
 
+Route::get('/lessons', fn () => Inertia::render('Teacher/LessonStudio'))->name('lessons');
+Route::get('/teacher/lessonstudio', function () {
+    return Inertia::render('teacher/lessonstudio'); // Matches your lessonstudio.tsx file location
+})->name('/teacher/lessonstudio');
 
 // ICT Portal Routes (Protected by auth and IT/admin role middleware as needed)
 Route::middleware(['auth'])->prefix('it')->group(function () {
@@ -154,14 +158,19 @@ Route::post('/forgot-password', function (Request $request) {
 Route::inertia('/forgot-password/status', 'Auth/ForgotPasswordStatus')->name('password.status');
 
 // Account Activation Flow
+// Account Activation Flow
 Route::inertia('/activate-account', 'Auth/ActivateAccount')->name('account.activate');
+
 Route::post('/activate-account', function (Request $request) {
     $request->validate([
         'email' => ['required', 'email'],
         'password' => ['required', 'string', 'min:8', 'confirmed'],
     ]);
 
-    return redirect()->route('login')->with('success', 'Account activated successfully!');
+    // Perform your account activation logic here (e.g., creating the user)
+
+    // Redirect to the verification notice route
+    return redirect()->route('verification.notice')->with('success', 'Account is invited! Please enter your verification code.'); 
 });
 
 // Account Verification Flow (6-digit PIN)
@@ -171,7 +180,7 @@ Route::post('/verify-account', function (Request $request) {
         'code' => ['required', 'string', 'size:6'],
     ]);
 
-    return redirect()->route('student.dashboard');
+    return redirect()->route('overview')->with('success', 'Account verified successfully!');
 });
 
 // Password Reset Flow
@@ -223,7 +232,9 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
     Route::get('/lessons', fn () => Inertia::render('Teacher/LessonStudio'))->name('lessons');
     Route::get('/lessons/create', fn () => Inertia::render('Teacher/LessonStudio'))->name('lessons.create');
     Route::get('/lessons/draft-saved', fn () => Inertia::render('Teacher/LessonDraftSaved'))->name('lessons.draft');
-    
+        Route::get('/teacherusermanagement', fn () => Inertia::render('Teacher/TeacherUserManagement'))->name('teacherusermanagement');
+    Route::get('/subjects', fn () => Inertia::render('Teacher/Subjects'))->name('subjects');
+
     Route::get('/observations', fn () => Inertia::render('Teacher/Observations'))->name('observations');
     Route::get('/schedule', fn () => Inertia::render('Teacher/Schedule'))->name('schedule');
     Route::get('/reports', fn () => Inertia::render('Teacher/Reports'))->name('reports');

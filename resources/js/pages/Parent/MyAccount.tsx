@@ -626,7 +626,7 @@ export default function ParentAccount({
 
                             {passwordError && (
                                 <div className="p-3.5 bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold rounded-xl flex items-center gap-2">
-                                    <span>⚠️</span> {passwordError}
+                                    <span></span> {passwordError}
                                 </div>
                             )}
 

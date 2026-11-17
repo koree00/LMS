@@ -297,10 +297,7 @@ export default function StudentActivities({ notifications = [] }: { notification
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                                 <span>Home</span>
                             </Link>
-                            <button onClick={() => speakInstructions('Welcome to your learning map! Pick a subject, then tap on any open level to start playing and earning stars.')} className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#EEF5F0] hover:bg-[#E1EDE5] text-[#2B523F] font-semibold text-xs transition-colors cursor-pointer border border-[#D5E6DC]">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
-                                <span>Audio Help</span>
-                            </button>
+                            
                             <div className="flex items-center gap-1.5 bg-[#FBF6EC] border border-[#EBDEC4] px-3.5 py-2 rounded-xl text-xs font-bold text-[#6E5630]">
                                 <PastelCoin className="w-4 h-4" />
                                 <span>{totalCoins} Coins</span>
